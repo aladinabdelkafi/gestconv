@@ -11,11 +11,26 @@
 	<div id="formContent">
 		<!-- Tabs Titles -->
 		<!-- Login Form -->
-		<form>
+		<form action="LoginControlleur" method="POST" role="form">
+			<%
+				if (request.getParameter("erreur1") != null) {
+			%><div class="alert alert-danger" role="alert">veuillez
+				remplir tous les champs</div>
+			<%
+				}
+			%>
+			
+			
+			<%
+				if (request.getParameter("erreur2") != null) {
+			%><div class="alert alert-danger" role="alert">cet utilisateur n'existe pas</div>
+			<%
+				}
+			%>
 			<input type="text" id="login" class="fadeIn second" name="login"
 				placeholder="login"> <input type="text" id="password"
-				class="fadeIn third" name="login" placeholder="password"> <input
-				type="submit" class="fadeIn fourth" value="Log In">
+				class="fadeIn third" name="password" placeholder="password">
+			<input type="submit" class="fadeIn fourth" value="Log In">
 		</form>
 		<!-- Remind Passowrd -->
 		<div id="formFooter">

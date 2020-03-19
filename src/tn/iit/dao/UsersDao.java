@@ -29,7 +29,7 @@ public class UsersDao {
 			session.close();
 		}
 	}
-	
+
 	public ArrayList<Users> getAllUsers() {
 		ArrayList<Users> users = new ArrayList<Users>();
 		Transaction trns = null;
@@ -45,7 +45,7 @@ public class UsersDao {
 		}
 		return users;
 	}
-	
+
 	public Convention getUserById(int id) {
 		Convention objUser = null;
 		Transaction trns = null;
@@ -66,20 +66,39 @@ public class UsersDao {
 		}
 		return objUser;
 	}
-	
-	
-	
-	public Convention getUserByMail_Pass(String email,String password) {
+
+	public Users getUserByLogin_Pass(String login, String password) {
+		Users objUser = null;
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		try {
+			trns = session.beginTransaction();
+			String queryString = "from Users where login = '" + login + "' and password='" + password + "'";
+			Query query = session.createQuery(queryString);
+
+			objUser = (Users) query.uniqueResult();
+
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		System.out.println(objUser.toString());
+		return objUser;
+	}
+
+	public Convention getUserByLogin(String login) {
 		Convention objUser = null;
 		Transaction trns = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		try {
 			trns = session.beginTransaction();
-			String queryString = "from Users where email = :email and password= :password";
+			String queryString = "from Users where login = :login ";
 			Query query = session.createQuery(queryString);
-			query.setString("email", email);
-			query.setString("password", password);
+			query.setString("login", login);
 			objUser = (Convention) query.uniqueResult();
 
 		} catch (RuntimeException e) {

@@ -1,4 +1,5 @@
 <%@page import="tn.iit.dao.*"%>
+<%@page import="javax.servlet.http.HttpSession"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.*"%>
@@ -8,7 +9,14 @@
 <%@page import="org.dom4j.*"%>
 <%@page import="org.hibernate.*"%>
 <%@include file="nav.jsp"%>
+<%
+HttpSession sessions=request.getSession();
 
+if(sessions.getAttribute("login")==null && sessions.getAttribute("password")==null ){
+	
+	request.getRequestDispatcher("login.jsp").forward(request, response);
+}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 

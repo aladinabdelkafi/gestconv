@@ -19,21 +19,26 @@ public class Users {
 	@Column(name = "fullName")
 	private String fullName;
 
+	@Column(name = "login")
+	private String login;
+
 	@Column(name = "email")
 	private String email;
 
 	@Column(name = "password")
 	private String password;
 
-	public Users(int idUser, String fullName, String email, String password) {
+	public Users(int idUser, String fullName, String login, String email, String password) {
 		this.idUser = idUser;
 		this.fullName = fullName;
+		this.login = login;
 		this.email = email;
 		this.password = password;
 	}
 
-	public Users(String fullName, String email, String password) {
+	public Users(String fullName, String login, String email, String password) {
 		this.fullName = fullName;
+		this.login = login;
 		this.email = email;
 		this.password = password;
 	}
@@ -71,6 +76,15 @@ public class Users {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	@Override
