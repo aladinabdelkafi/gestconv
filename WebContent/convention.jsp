@@ -108,7 +108,6 @@
 				dateEditionConv = conv.getDateEditionConv().toString();
 				dateSigConv = conv.getSateSigConv().toString();
 				objetConv = conv.getObjetConv();
-				System.out.println(objetConv);
 				dateVigueurConv = conv.getDateVigueurConv().toString();
 				dateExpConv = conv.getDateExpConv().toString();
 				participant1 = conv.getParticipant1();
@@ -141,10 +140,11 @@
 										<div class="form-group">
 											<label><h4>type convention</h4></label> <select
 												class="form-control" placeholder="Choisir" name="typeConv">
+												<option value="<%=typeConv%>"><%=typeConv%></option>
 												<option value="universitaire">universitaire</option>
 												<option value="industrielle nationale">
 													industrielle nationale</option>
-												<option value="industrielle ">industrielle</option>
+												<option value="industrielle">industrielle</option>
 											</select>
 											<p class="help-block"></p>
 										</div>
