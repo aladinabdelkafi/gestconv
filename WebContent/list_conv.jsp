@@ -60,19 +60,22 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Liste des Conventions</h1>
+					<h1 id='lst' class="page-header">Liste des Conventions</h1>
 				</div>
 				<!-- /.col-lg-12 -->
+
 			</div>
 			<!-- /.row -->
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading"></div>
+					<div class="card">
+						<div class="card-header">
+							<button id="myBtn" type="button" onclick="printData()"
+								class="fas fa-print">print</button>
+						</div>
 						<!-- /.panel-heading -->
-						<div class="panel-body">
-							<table width="100%"
-								class="table table-striped table-bordered table-hover"
+						<div class="card-body">
+							<table width="100%" class="table table-bordered table-hover"
 								id="dataTables-example">
 								<thead>
 									<tr>
@@ -100,10 +103,26 @@
 									<tr>
 										<td><%=lst.get(i).getIdConv()%></td>
 										<td><%=lst.get(i).getTypeConv()%></td>
-										<td><%out.print(lst.get(i).getParticipant1());%></td>
-										<td><%out.print(lst.get(i).getParticipant2());%></td>
-										<td><%out.print(lst.get(i).getParticipant3());%></td>
-										<td><%out.print(lst.get(i).getParticipant4());%></td>
+										<td>
+											<%
+												out.print(lst.get(i).getParticipant1());
+											%>
+										</td>
+										<td>
+											<%
+												out.print(lst.get(i).getParticipant2());
+											%>
+										</td>
+										<td>
+											<%
+												out.print(lst.get(i).getParticipant3());
+											%>
+										</td>
+										<td>
+											<%
+												out.print(lst.get(i).getParticipant4());
+											%>
+										</td>
 										<td><%=lst.get(i).getDateEditionConv()%></td>
 										<td><%=lst.get(i).getSateSigConv()%></td>
 										<td><%=lst.get(i).getObjetConv()%></td>
@@ -177,7 +196,39 @@
 				responsive : true
 			});
 		});
+
+		function printData() {
+			var divToPrint = document.getElementById("dataTables-example");
+			var dPrint = document.getElementById("lst");
+			newWin = window.open("ala");
+			newWin.document.write(dPrint.outerHTML);
+
+			var x = divToPrint.rows.length;
+			var body = newWin.document.getElementsByTagName("body")[0];
+			var tbl = newWin.document.createElement("table");
+			var tblBody = newWin.document.createElement("tbody");
+
+			for (var i = 0; i < x; i++) {
+				var row = document.createElement("tr");
+				var y = divToPrint.rows[i].cells.length;
+				for (var j = 1; j < y; j++) {
+					var cell = document.createElement("td");
+					var cellText = document
+							.createTextNode(divToPrint.rows[i].cells[j].innerHTML);
+					cell.appendChild(cellText);
+					row.appendChild(cell);
+				}
+				tblBody.appendChild(row);
+			}
+
+			tbl.appendChild(tblBody);
+			body.appendChild(tbl);
+			tbl.setAttribute("border", "2");
+
+			newWin.print();
+		}
 	</script>
+
 
 </body>
 

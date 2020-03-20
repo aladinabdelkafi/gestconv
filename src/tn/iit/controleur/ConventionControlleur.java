@@ -46,8 +46,8 @@ public class ConventionControlleur extends HttpServlet {
 			if (action != null && action.equals("supprimer")) {
 				System.out.println("supp");
 				convDao.deleteConvention(idConv);
-				request.getRequestDispatcher("list_conv.jsp").forward(request, response);
-
+				//request.getRequestDispatcher("list_conv.jsp").forward(request, response);
+				response.sendRedirect("list_conv.jsp");
 			}
 
 			if (action != null && action.equals("modifier")) {
@@ -58,7 +58,8 @@ public class ConventionControlleur extends HttpServlet {
 				// passer l'objet trouvé comme attribut dans la requête
 				request.setAttribute("convention", conv);
 				// passer au formulaire
-				request.getRequestDispatcher("convention.jsp").forward(request, response);
+				response.sendRedirect("convention.jsp");
+				//request.getRequestDispatcher("convention.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -97,8 +98,8 @@ public class ConventionControlleur extends HttpServlet {
 					dateExpConv, participant1, participant2, participant3, participant4);
 			convDao.updateConvention(conv);
 		}
-
-		request.getRequestDispatcher("list_conv.jsp").forward(request, response);
+		response.sendRedirect("list_conv.jsp");
+		//request.getRequestDispatcher("list_conv.jsp").forward(request, response);
 	}
 
 }
