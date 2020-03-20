@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
@@ -20,7 +21,7 @@
 	<!-- /.navbar-header -->
 
 	<ul class="nav navbar-top-links navbar-right">
-	
+
 		<li class="dropdown"><a class="dropdown-toggle"
 			data-toggle="dropdown" href="#"> <i class="fa fa-tasks fa-fw"></i>
 				<i class="fa fa-caret-down"></i>
@@ -94,7 +95,7 @@
 							All Tasks</strong> <i class="fa fa-angle-right"></i>
 				</a></li>
 			</ul> <!-- /.dropdown-tasks --></li>
-	
+
 		<li class="dropdown"><a class="dropdown-toggle"
 			data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
 				<i class="fa fa-caret-down"></i>
@@ -104,8 +105,8 @@
 						Profile</a></li>
 				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
 				<li class="divider"></li>
-				<li><a href="LogoutControlleur"><i class="fa fa-sign-out fa-fw"></i>
-						Logout</a></li>
+				<li><a href="LogoutControlleur"><i
+						class="fa fa-sign-out fa-fw"></i> Logout</a></li>
 			</ul> <!-- /.dropdown-user --></li>
 		<!-- /.dropdown -->
 	</ul>
@@ -114,7 +115,7 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
-				
+
 				<li><a href="index.jsp"><i class="fa fa-dashboard fa-fw"></i>
 						Dashboard</a></li>
 
@@ -123,8 +124,8 @@
 				<li><a href="convention.jsp"><i class="fa fa-edit fa-fw"></i>
 						Ajout Convention</a></li>
 
-				<li><a href="TP_01_Report1-viewer.jsp"><i
-						class="fa fa-table fa-fw"></i> Imprimer Convention</a></li>
+				<li><a href="invoice-print.jsp" target="_blank"><i
+						class="fas fa-print"></i> Imprimer Convention</a></li>
 		</div>
 		<!-- /.sidebar-collapse -->
 	</div>
