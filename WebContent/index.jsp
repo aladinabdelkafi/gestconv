@@ -10,12 +10,12 @@
 <%@page import="org.hibernate.*"%>
 <%@include file="nav.jsp"%>
 <%
-HttpSession sessions=request.getSession();
+	HttpSession sessions = request.getSession();
 
-if(sessions.getAttribute("login")==null && sessions.getAttribute("password")==null ){
-	
-	request.getRequestDispatcher("login.jsp").forward(request, response);
-}
+	if (sessions.getAttribute("login") == null && sessions.getAttribute("password") == null) {
+
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -68,59 +68,47 @@ if(sessions.getAttribute("login")==null && sessions.getAttribute("password")==nu
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
+			
+			
+			
+			
 			<!-- /.row -->
 			<div class="row">
-				<%
-					ConventionDao convDao = new ConventionDao();
-					List<Convention> lst1 = convDao.getAllConventions_universitaire("universitaire");
-					int s1 = lst1.size();
-				%>
-				<div class="col-lg-3 col-md-6">
-					<div class="panel panel-green">
-						<div class="panel-heading">
-							<div class="row">
-								<div>conventions universitaire</div>
-							</div>
+				<div class="card">
+					<div class="card-header border-0">
+						<h3 class="card-title">Nombre de convention par Type</h3>
+					</div>
+					<div class="card-body">
+						<%
+							ConventionDao convDao = new ConventionDao();
+							TypeConvDao typeconvDao = new TypeConvDao();
+							List<TypeConv> lst2 = typeconvDao.getAllTypeConv();
+							for (int i = 0; i < lst2.size(); i++) {
+								List<Convention> lst1 = convDao.getAllConventions_universitaire(lst2.get(i).getIdType());
+								int s1 = lst1.size();
+						%>
+						<div
+							class="d-flex justify-content-between align-items-center border-bottom mb-3">
+							<p class="text-success text-xl"></p>
+							<p class="d-flex flex-column text-right">
+							
+								<span class="text-success"> </i> <%=s1%>
+								</span> <b><span class="text-muted"> <%
+ 	out.print(lst2.get(i).getNameType());
+ %>
+								</span></b>
+							</p>
 						</div>
-						<h1>
-							<%=s1%></h1>
+						<%
+							}
+						%>
 					</div>
 				</div>
-				<%
-				lst1 = convDao.getAllConventions_universitaire("industrielle nationale");
-					s1 = lst1.size();
-				%>
-				<div class="col-lg-3 col-md-6">
-					<div class="panel panel-green">
-						<div class="panel-heading">
-							<div class="row">
-								<div>conventions industrielle nationale</div>
-							</div>
-						</div>
-						<h1><%=s1%></h1>
-					</div>
-				</div>
-				<%
-				lst1 = convDao.getAllConventions_universitaire("industrielle");
-				s1 = lst1.size();
-				%>
-				<div class="col-lg-3 col-md-6">
-					<div class="panel panel-green">
-						<div class="panel-heading">
-							<div class="row">
-								<div>conventions industrielle</div>
-							</div>
-						</div>
-						<h1><%=s1%></h1>
-					</div>
-				</div>
-
-
 			</div>
 			<!-- /.row -->
-			
-			
-			
+
+
+
 			<div class="row"></div>
 			<!-- /.row -->
 		</div>

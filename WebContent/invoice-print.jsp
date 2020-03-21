@@ -81,7 +81,7 @@
 								for (int i = 0; i < lst.size(); i++) {
 							%>
 							<tr>
-								<td><%=lst.get(i).getTypeConv()%></td>
+								<td><%=lst.get(i).getTypeConv().getNameType()%></td>
 								<td>
 									<%
 										out.print(lst.get(i).getParticipant1());

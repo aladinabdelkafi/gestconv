@@ -53,29 +53,21 @@
 
 <body>
 
-	<div id="wrapper">
-
+	
 		<!-- Navigation -->
-
-		<div id="page-wrapper">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 id='lst' class="page-header">Liste des Conventions</h1>
-				</div>
-				<!-- /.col-lg-12 -->
-
-			</div>
-			<!-- /.row -->
+<section class="content">
+		<div id="page-wrapper" class="content-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-header">
+						<h1 id='lst' class="page-header">Liste des Conventions</h1>
 							<button id="myBtn" type="button" onclick="printData()"
 								class="fas fa-print">print</button>
 						</div>
 						<!-- /.panel-heading -->
 						<div class="card-body">
-							<table width="100%" class="table table-bordered table-hover"
+							<table width="100%" class="table table-bordered table-striped"
 								id="dataTables-example">
 								<thead>
 									<tr>
@@ -102,7 +94,7 @@
 									%>
 									<tr>
 										<td><%=lst.get(i).getIdConv()%></td>
-										<td><%=lst.get(i).getTypeConv()%></td>
+										<td><%=lst.get(i).getTypeConv().getNameType()%></td>
 										<td>
 											<%
 												out.print(lst.get(i).getParticipant1());
@@ -147,7 +139,6 @@
 								</tbody>
 							</table>
 							<!-- /.table-responsive -->
-
 						</div>
 						<!-- /.panel-body -->
 					</div>
@@ -160,18 +151,7 @@
 			<!-- /.table-responsive -->
 		</div>
 		<!-- /.panel-body -->
-	</div>
-	<!-- /.panel -->
-	</div>
-	<!-- /.col-lg-6 -->
-	</div>
-	<!-- /.row -->
-	</div>
-	<!-- /#page-wrapper -->
-
-	</div>
-	<!-- /#wrapper -->
-
+	</section>
 	<!-- jQuery -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 
