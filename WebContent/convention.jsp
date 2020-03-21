@@ -58,7 +58,7 @@
 		<%
 			// gestion de la saisie de  l'utilisateur en cours
 			int idConv = -1;
-			String typeConv = null;
+			String nametypeConv = null;
 			String dateEditionConv = null;
 			String dateSigConv = null;
 			String objetConv = null;
@@ -68,9 +68,9 @@
 			String participant2 = null;
 			String participant3 = null;
 			String participant4 = null;
-			
-			if (typeConv == null)
-				typeConv = "";
+
+			if (nametypeConv == null)
+				nametypeConv = "";
 
 			if (dateEditionConv == null)
 				dateEditionConv = "";
@@ -102,9 +102,9 @@
 			Convention conv = (Convention) request.getAttribute("convention");
 
 			if (conv != null) {
-				System.out.println(conv.toString());
-				idConv=conv.getIdConv();
-				typeConv = conv.getTypeConv();
+
+				idConv = conv.getIdConv();
+				nametypeConv = conv.getTypeConv().getNameType();
 				dateEditionConv = conv.getDateEditionConv().toString();
 				dateSigConv = conv.getSateSigConv().toString();
 				objetConv = conv.getObjetConv();
@@ -135,16 +135,38 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<form action="ConventionControlleur" method="POST" role="form">
-										<input  name="idConv" type="hidden" value="<%=idConv%>">
+										<input name="idConv" type="hidden" value="<%=idConv%>">
+
+
+
+
 
 										<div class="form-group">
 											<label><h4>type convention</h4></label> <select
 												class="form-control" placeholder="Choisir" name="typeConv">
-												<option value="<%=typeConv%>"><%=typeConv%></option>
-												<option value="universitaire">universitaire</option>
-												<option value="industrielle nationale">
-													industrielle nationale</option>
-												<option value="industrielle">industrielle</option>
+												<%
+													TypeConvDao vDao = new TypeConvDao();
+													List<TypeConv> lst = vDao.getAllTypeConv();
+													for (int i = 0; i < lst.size(); i++) {
+														if (nametypeConv.equals(lst.get(i).getNameType())) {
+												%>
+												<option value="<%=lst.get(i).getIdType()%>" selected>
+													<%
+														out.println(lst.get(i).getNameType());
+													%>
+												</option>
+												<%
+													} else {
+												%>
+												<option value="<%=lst.get(i).getIdType()%>">
+													<%
+														out.println(lst.get(i).getNameType());
+													%>
+												</option>
+												<%
+													}
+													}
+												%>
 											</select>
 											<p class="help-block"></p>
 										</div>
@@ -203,8 +225,7 @@
 										</div>
 										<div class="form-group">
 											<label><h4>Objet</h4> </label>
-											<textarea class="form-control" name="objetConv"
-												 rows="3"><%=objetConv%></textarea>
+											<textarea class="form-control" name="objetConv" rows="3"><%=objetConv%></textarea>
 											<p class="help-block"></p>
 										</div>
 

@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import tn.iit.dao.ConventionDao;
+import tn.iit.dao.TypeConvDao;
 import tn.iit.model.Convention;
+import tn.iit.model.TypeConv;
 
 
 /**
@@ -46,22 +48,18 @@ public class ConventionControlleur extends HttpServlet {
 			if (action != null && action.equals("supprimer")) {
 				System.out.println("supp");
 				convDao.deleteConvention(idConv);
-				request.getRequestDispatcher("list_conv.jsp").forward(request, response);
-
+				//request.getRequestDispatcher("list_conv.jsp").forward(request, response);
+				response.sendRedirect("list_conv.jsp");
 			}
 
 			if (action != null && action.equals("modifier")) {
 				System.out.println("modifier");
 				Convention conv = new Convention();
 				conv = convDao.getConventionById(idConv);
-
-				// passer l'objet trouvé comme attribut dans la requête
 				request.setAttribute("convention", conv);
-				// passer au formulaire
 				request.getRequestDispatcher("convention.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -73,6 +71,8 @@ public class ConventionControlleur extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		TypeConv type;
+		TypeConvDao typeconvDao = new TypeConvDao();
 		ConventionDao convDao = new ConventionDao();
 		Convention conv;
 		int idConv = Integer.parseInt(request.getParameter("idConv"));
@@ -86,19 +86,17 @@ public class ConventionControlleur extends HttpServlet {
 		String participant2 = request.getParameter("participant2");
 		String participant3 = request.getParameter("participant3");
 		String participant4 = request.getParameter("participant4");
-
-		// System.out.println(conv.toString() );
+		type=typeconvDao.getTypeConventionById(Integer.parseInt(typeConv));
 		if (idConv == -1) {
-			conv = new Convention(typeConv, dateEditionConv, dateSigConv, objetConv, dateVigueurConv, dateExpConv,
+			conv = new Convention(type, dateEditionConv, dateSigConv, objetConv, dateVigueurConv, dateExpConv,
 					participant1, participant2, participant3, participant4);
 			convDao.addConvention(conv);
 		} else {
-			conv = new Convention(idConv, typeConv, dateEditionConv, dateSigConv, objetConv, dateVigueurConv,
+			conv = new Convention(idConv, type, dateEditionConv, dateSigConv, objetConv, dateVigueurConv,
 					dateExpConv, participant1, participant2, participant3, participant4);
 			convDao.updateConvention(conv);
 		}
-
-		request.getRequestDispatcher("list_conv.jsp").forward(request, response);
+		response.sendRedirect("list_conv.jsp");
 	}
 
 }

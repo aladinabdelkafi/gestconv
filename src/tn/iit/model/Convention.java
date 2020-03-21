@@ -10,7 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,8 +22,9 @@ public class Convention {
 	@Column(name = "idConv")
 	private int idConv;
 
-	@Column(name = "typeConv")
-	private String typeConv;
+	@ManyToOne
+	@JoinColumn(name="typeConv")
+	private TypeConv typeConv;
 
 	@Column(name = "dateEditionConv")
 	private LocalDate dateEditionConv;
@@ -51,7 +53,7 @@ public class Convention {
 	@Column(name = "participant4")
 	private String participant4;
 	
-	public Convention(String typeConv, LocalDate dateEditionConv, LocalDate dateSigConv, String objetConv,
+	public Convention(TypeConv typeConv, LocalDate dateEditionConv, LocalDate dateSigConv, String objetConv,
 			LocalDate dateVigueurConv, LocalDate dateExpConv, String participant1, String participant2, String participant3,
 			String participant4) {
 		
@@ -66,7 +68,7 @@ public class Convention {
 		this.participant3 = participant3;
 		this.participant4 = participant4;
 	}
-	public Convention(int idConv, String typeConv, LocalDate dateEditionConv, LocalDate dateSigConv, String objetConv,
+	public Convention(int idConv, TypeConv typeConv, LocalDate dateEditionConv, LocalDate dateSigConv, String objetConv,
 			LocalDate dateVigueurConv, LocalDate dateExpConv, String participant1, String participant2, String participant3,
 			String participant4) {
 		this.idConv=idConv;
@@ -90,10 +92,10 @@ public class Convention {
 	public void setIdConv(int idConv) {
 		this.idConv = idConv;
 	}
-	public String getTypeConv() {
+	public TypeConv getTypeConv() {
 		return typeConv;
 	}
-	public void setTypeConv(String typeConv) {
+	public void setTypeConv(TypeConv typeConv) {
 		this.typeConv = typeConv;
 	}
 	public LocalDate getDateEditionConv() {

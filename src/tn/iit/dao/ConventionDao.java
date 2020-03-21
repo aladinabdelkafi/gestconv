@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import tn.iit.model.Convention;
+import tn.iit.model.TypeConv;
 import tn.iit.util.HibernateUtil;
 
 public class ConventionDao {
@@ -83,7 +84,7 @@ public class ConventionDao {
 		return conventions;
 	}
 
-	public ArrayList<Convention> getAllConventions_universitaire(String type) {
+	public ArrayList<Convention> getAllConventions_universitaire(int type) {
 		ArrayList<Convention> conventions = new ArrayList<Convention>();
 		Transaction trns = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -105,7 +106,7 @@ public class ConventionDao {
 
 		try {
 			trns = session.beginTransaction();
-			String queryString = "from Convention where id = :id";
+			String queryString = "from Convention where idConv = :id";
 			Query query = session.createQuery(queryString);
 			query.setInteger("id", id);
 			objConvention = (Convention) query.uniqueResult();
