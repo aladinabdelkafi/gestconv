@@ -54,7 +54,6 @@ public class TypeControlleur extends HttpServlet {
 				TypeConv typeconv = new TypeConv();
 				typeconv = typeconvDao.getTypeConventionById(idType);
 				request.setAttribute("type", typeconv);
-				//response.sendRedirect("typeConv.jsp");
 				request.getRequestDispatcher("typeConv.jsp").forward(request, response);
 
 			}
