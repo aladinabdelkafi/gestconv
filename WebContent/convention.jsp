@@ -30,6 +30,10 @@
 <!-- Custom CSS -->
 <link href="dist/css/sb-admin-2.css" rel="stylesheet">
 
+<link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+<link rel="stylesheet"
+	href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
 <!-- Custom Fonts -->
 <link href="vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
@@ -48,7 +52,7 @@
 
 </head>
 
-<body>
+<body onload="Test()">
 
 	<div id="wrapper">
 
@@ -60,23 +64,19 @@
 			int idConv = -1;
 			String nametypeConv = null;
 			String dateEditionConv = null;
-			String dateSigConv = null;
 			String objetConv = null;
 			String dateVigueurConv = null;
 			String dateExpConv = null;
-			String participant1 = null;
-			String participant2 = null;
-			String participant3 = null;
-			String participant4 = null;
-
+			String date1 = null;
+			String date2 = null;
+			String date3 = null;
+			String date4 = null;
+			
 			if (nametypeConv == null)
 				nametypeConv = "";
 
 			if (dateEditionConv == null)
 				dateEditionConv = "";
-
-			if (dateSigConv == null)
-				dateSigConv = "";
 
 			if (objetConv == null)
 				objetConv = "";
@@ -86,34 +86,48 @@
 
 			if (dateExpConv == null)
 				dateExpConv = "";
+			
+			
+			if (date1 == null)
+				date1 = "";
 
-			if (participant1 == null)
-				participant1 = "";
+			if (date2 == null)
+				date2 = "";
 
-			if (participant2 == null)
-				participant2 = "";
+			if (date3 == null)
+				date3 = "";
 
-			if (participant3 == null)
-				participant3 = "";
-
-			if (participant4 == null)
-				participant4 = "";
-
+			if (date4 == null)
+				date4 = "";
+			ArrayList<Part_Conv> listPartConvv;
 			Convention conv = (Convention) request.getAttribute("convention");
-
+			ArrayList <Integer>arr= new ArrayList();
 			if (conv != null) {
-
+				
+				
+				listPartConvv= (ArrayList<Part_Conv>) request.getAttribute("conventionParticipant");
+				for(int i=0;i<listPartConvv.size();i++){
+					arr.add(listPartConvv.get(i).getParticipant().getIdParticipant());
+					if(i==0){
+						date1=listPartConvv.get(i).getDateSigConv().toString();
+					}
+					if(i==1){
+						date2=listPartConvv.get(i).getDateSigConv().toString();
+					}
+					if(i==2){
+						date3=listPartConvv.get(i).getDateSigConv().toString();
+					}
+					if(i==3){
+						date4=listPartConvv.get(i).getDateSigConv().toString();
+					}
+				}
+				System.out.println(date1+"   "+date2+"   "+date3+"   "+date4);
 				idConv = conv.getIdConv();
 				nametypeConv = conv.getTypeConv().getNameType();
 				dateEditionConv = conv.getDateEditionConv().toString();
-				dateSigConv = conv.getSateSigConv().toString();
 				objetConv = conv.getObjetConv();
 				dateVigueurConv = conv.getDateVigueurConv().toString();
 				dateExpConv = conv.getDateExpConv().toString();
-				participant1 = conv.getParticipant1();
-				participant2 = conv.getParticipant2();
-				participant3 = conv.getParticipant3();
-				participant4 = conv.getParticipant4();
 
 			}
 
@@ -122,7 +136,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Ajouter une Convention</h1>
+					<h1 id="titre" class="page-header">Ajouter une Convention</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
@@ -135,13 +149,14 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<form action="ConventionControlleur" method="POST" role="form">
-										<input name="idConv" type="hidden" value="<%=idConv%>">
+										<input id="idConv" name="idConv" type="hidden" value="<%=idConv%>">
+										<input id="aa" name="nbr" type="hidden" value="<%=arr.size()%>">
 
 
 
-
-
+<div class="col-lg-10">
 										<div class="form-group">
+										
 											<label><h4>type convention</h4></label> <select
 												class="form-control" placeholder="Choisir" name="typeConv">
 												<%
@@ -170,32 +185,43 @@
 											</select>
 											<p class="help-block"></p>
 										</div>
-
-										<div class="form-group">
-											<label><h4>participant N1</h4></label> <input type="text"
-												name="participant1" class="form-control"
-												value="<%=participant1%>">
-											<p class="help-block"></p>
+										<label><h4>les participants</h4></label> 
+										<div class="select2-purple">
+											<select id="select_demo" onChange="SelectPage(this);" class="select2" multiple
+												data-placeholder="Select a State" name="parts"
+												data-dropdown-css-class="select2-purple"
+												style="width: 100%;">
+												<%
+													ParticipentDao pDao = new ParticipentDao();
+													List<Participant> lstp = pDao.getAllParticipant();
+													for (int i = 0; i < lstp.size(); i++) {
+														if(arr.contains(lstp.get(i).getIdParticipant())){
+													
+												%>
+												
+												<option selected value="<%=lstp.get(i).getIdParticipant()%>">
+													<%
+														out.println(lstp.get(i).getNameParticipant());
+													%>
+												</option>
+												<%
+												}else{
+												%>
+												<option value="<%=lstp.get(i).getIdParticipant()%>">
+													<%
+														out.println(lstp.get(i).getNameParticipant());
+													%>
+												</option>
+												<%}
+														
+													}
+												%>
+											</select>
 										</div>
-										<div class="form-group">
-											<label><h4>participant N2</h4></label> <input type="text"
-												name="participant2" class="form-control"
-												value="<%=participant2%>">
-											<p class="help-block"></p>
-										</div>
-										<div class="form-group">
-											<label>
-												<h4>participant N3</h4>
-											</label> <input type="text" name="participant3" class="form-control"
-												value="<%=participant3%>">
-											<p class="help-block"></p>
-										</div>
-										<div class="form-group">
-											<label><h4>participant N4</h4></label> <input type="text"
-												name="participant4" class="form-control"
-												value="<%=participant4%>">
-											<p class="help-block"></p>
-										</div>
+										
+										
+										
+										
 										<div class="form-group">
 											<label>
 												<h4>Date de l'edition</h4>
@@ -210,30 +236,17 @@
 											<p class="help-block"></p>
 										</div>
 
-										<div class="form-group">
-											<label>
-												<h4>Date de signature</h4>
-											</label>
-											<div id="datetimepicker2" class="input-append date">
-												<input type="text" name="dateSigConv"
-													value="<%=dateSigConv%>"></input> <span class="add-on">
-													<i data-time-icon="icon-time"
-													data-date-icon="icon-calendar"></i>
-												</span>
-											</div>
-											<p class="help-block"></p>
-										</div>
+
 										<div class="form-group">
 											<label><h4>Objet</h4> </label>
 											<textarea class="form-control" name="objetConv" rows="3"><%=objetConv%></textarea>
 											<p class="help-block"></p>
 										</div>
-
 										<div class="form-group">
 											<label>
 												<h4>Date d'entrée en vigueur</h4>
 											</label>
-											<div id="datetimepicker3" class="input-append date">
+											<div id="datetimepicker2" class="input-append date">
 												<input type="text" name="dateVigueurConv"
 													value="<%=dateVigueurConv%>"></input> <span class="add-on">
 													<i data-time-icon="icon-time"
@@ -243,11 +256,11 @@
 											<p class="help-block"></p>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group" >
 											<label>
 												<h4>Date d'expiration</h4>
 											</label>
-											<div id="datetimepicker4" class="input-append date">
+											<div id="datetimepicker3" class="input-append date" >
 												<input type="text" name="dateExpConv"
 													value="<%=dateExpConv%>"></input> <span class="add-on">
 													<i data-time-icon="icon-time"
@@ -256,15 +269,78 @@
 											</div>
 											<p class="help-block"></p>
 										</div>
-
-
-
-
-
-
-
 										<button type="submit" class="btn btn-default">Submit</button>
 										<button type="reset" class="btn btn-default">Reset</button>
+										
+										
+</div>	
+
+
+<div  class="col-lg-2">
+										
+										
+										
+										<div class="form-group1" id="d1" style="visibility:hidden;" >
+											<label>
+												<h4>Date 1</h4>
+											</label>
+											<div id="datetimepicker4" class="input-append date" >
+												<input  id="dd1" type="text" name="date1"
+													value="<%=date1%>"></input> <span class="add-on">
+													<i data-time-icon="icon-time"
+													data-date-icon="icon-calendar"></i>
+												</span>
+											</div>
+											<p class="help-block"></p>
+										</div>
+										
+										
+										<div class="form-group2" id="d2"  style="visibility:hidden;">
+											<label>
+												<h4>Date 2</h4>
+											</label>
+											<div id="datetimepicker5" class="input-append date" >
+												<input  id="dd2" type="text" name="date2"
+													value="<%=date2%>"></input> <span class="add-on">
+													<i data-time-icon="icon-time"
+													data-date-icon="icon-calendar"></i>
+												</span>
+											</div>
+											<p class="help-block"></p>
+										</div>
+										
+										
+										<div class="form-group3" id="d3" style="visibility:hidden;">
+											<label>
+												<h4>Date 3</h4>
+											</label>
+											<div id="datetimepicker6" class="input-append date" >
+												<input  id="dd3" type="text" name="date3"
+													value="<%=date3%>"></input> <span class="add-on">
+													<i data-time-icon="icon-time"
+													data-date-icon="icon-calendar"></i>
+												</span>
+											</div>
+											<p class="help-block"></p>
+										</div>
+										
+										<div class="form-group4" id="d4" style="visibility:hidden;" >
+											<label>
+												<h4>Date 4</h4>
+											</label>
+											<div id="datetimepicker7" class="input-append date" >
+												<input  id="dd4" type="text" name="date4"
+													value="<%=date4%>"></input> <span class="add-on">
+													<i data-time-icon="icon-time"
+													data-date-icon="icon-calendar"></i>
+												</span>
+											</div>
+											<p class="help-block"></p>
+										</div>
+</div>
+
+									
+
 									</form>
 								</div>
 								<!-- /.col-lg-6 (nested) -->
@@ -286,7 +362,7 @@
 	</div>
 	<!-- /#page-wrapper -->
 
-	</div>
+
 	<!-- /#wrapper -->
 
 	<!-- jQuery -->
@@ -339,6 +415,157 @@
 			format : 'yyyy-MM-dd',
 			language : 'FR'
 		});
+	</script>
+	<script type="text/javascript">
+		$('#datetimepicker5').datetimepicker({
+			format : 'yyyy-MM-dd',
+			language : 'FR'
+		});
+	</script>
+	<script type="text/javascript">
+		$('#datetimepicker6').datetimepicker({
+			format : 'yyyy-MM-dd',
+			language : 'FR'
+		});
+	</script>
+	<script type="text/javascript">
+		$('#datetimepicker7').datetimepicker({
+			format : 'yyyy-MM-dd',
+			language : 'FR'
+		});
+	</script>
+	<!-- Select2 -->
+	<script src="plugins/select2/js/select2.full.min.js"></script>
+	<script>
+	function SelectPage(elem)
+	{
+		var d1 =document.querySelector('.form-group1');
+		var d2 =document.querySelector('.form-group2');
+		var d3 =document.querySelector('.form-group3');
+		var d4 =document.querySelector('.form-group4');
+		
+		
+        
+			var count = $("#select_demo :selected").length;
+			//alert(count);
+			if(count==0){
+				d1.style.visibility = 'hidden';
+				d2.style.visibility = 'hidden';
+				d3.style.visibility = 'hidden';
+				d4.style.visibility = 'hidden';
+				  document.getElementById("dd2").value = "";
+				  document.getElementById("dd3").value = "";
+				  document.getElementById("dd4").value = "";
+				  document.getElementById("dd1").value = "";
+				
+			}
+			if(count==1){
+				
+				d1.style.visibility = 'visible';
+				d2.style.visibility = 'hidden';
+				d3.style.visibility = 'hidden';
+				d4.style.visibility = 'hidden';
+				  document.getElementById("dd2").value = "";
+				  document.getElementById("dd3").value = "";
+				  document.getElementById("dd4").value = "";
+			}
+			if(count==2){
+				d1.style.visibility = 'visible';
+				d2.style.visibility = 'visible';
+				d3.style.visibility = 'hidden';
+				d4.style.visibility = 'hidden';
+				 document.getElementById("dd3").value = "";
+				  document.getElementById("dd4").value = "";
+				
+			}
+			if(count==3){
+				d1.style.visibility = 'visible';
+				d2.style.visibility = 'visible';
+				d3.style.visibility = 'visible';
+				d4.style.visibility = 'hidden';
+				document.getElementById("dd4").value = "";
+			}
+			if(count==4){
+				d1.style.visibility = 'visible';
+				d1.style.visibility = 'visible';
+				d1.style.visibility = 'visible';
+				d1.style.visibility = 'visible';
+			}
+	        
+	   
+	
+	}
+	
+	
+		$(function() {
+			//Initialize Select2 Elements
+			$('.select2').select2()
+			//Initialize Select2 Elements
+			$('.select2bs4').select2({
+				theme : 'bootstrap4'
+			})
+		})
+		
+		
+		$(document).ready(function() {
+			$("#select_demo").select2({
+				maximumSelectionLength : 4
+			});
+		});
+		function Test()
+		{ 
+			var Valh = document.getElementById("idConv").value;
+			if(Valh!=-1){
+				document.getElementById("titre").innerHTML = "Modifier une Convention";
+			}
+			
+			var d1 =document.querySelector('.form-group1');
+			var d2 =document.querySelector('.form-group2');
+			var d3 =document.querySelector('.form-group3');
+			var d4 =document.querySelector('.form-group4');
+			
+		var inputVal = document.getElementById("aa").value;
+		
+		if(inputVal==0){
+			d1.style.visibility = 'hidden';
+			d2.style.visibility = 'hidden';
+			d3.style.visibility = 'hidden';
+			d4.style.visibility = 'hidden';
+		}
+		if(inputVal==1){
+			
+			d1.style.visibility = 'visible';
+			d2.style.visibility = 'hidden';
+			d3.style.visibility = 'hidden';
+			d4.style.visibility = 'hidden';
+		}
+		if(inputVal==2){
+			d1.style.visibility = 'visible';
+			d2.style.visibility = 'visible';
+			d3.style.visibility = 'hidden';
+			d4.style.visibility = 'hidden';
+		}
+		if(inputVal==3){
+			d1.style.visibility = 'visible';
+			d2.style.visibility = 'visible';
+			d3.style.visibility = 'visible';
+			d4.style.visibility = 'hidden';
+		}
+		if(inputVal==4){
+			d1.style.visibility = 'visible';
+			d1.style.visibility = 'visible';
+			d1.style.visibility = 'visible';
+			d1.style.visibility = 'visible';
+		}
+        
+		}
+	</script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("#select_demo").select2({
+			maximumSelectionLength : 4
+		});
+	});
 	</script>
 </body>
 

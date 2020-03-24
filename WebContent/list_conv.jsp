@@ -53,105 +53,110 @@
 
 <body>
 
-	
-		<!-- Navigation -->
-<section class="content">
-		<div id="page-wrapper" class="content-wrapper">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="card">
-						<div class="card-header">
+
+	<!-- Navigation -->
+	<section class="content">
+	<div id="page-wrapper" class="content-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
 						<h1 id='lst' class="page-header">Liste des Conventions</h1>
-							<button id="myBtn" type="button" onclick="printData()"
-								class="fas fa-print">print</button>
-						</div>
-						<!-- /.panel-heading -->
-						<div class="card-body">
-							<table width="100%" class="table table-bordered table-striped"
-								id="dataTables-example">
-								<thead>
-									<tr>
-										<td>N°</td>
-										<td>TYPE</td>
-										<td>PARTICIPANT N1</td>
-										<td>PARTICIPANT N2</td>
-										<td>PARTICIPANT N3</td>
-										<td>PARTICIPANT N4</td>
-										<td>DATE D'EDITION</td>
-										<td>DATE DE SIGNATURE</td>
-										<td>OBJET</td>
-										<td>DATE D'ENTRÉE EN VIGUEUR</td>
-										<td>DATE D'EXPIRATION</td>
-										<td>MODIFIER</td>
-										<td>SUPPRIMER</td>
-									</tr>
-								</thead>
-								<tbody>
-									<%
-										ConventionDao convDao = new ConventionDao();
-										List<Convention> lst = convDao.getAllConventions();
-										for (int i = 0; i < lst.size(); i++) {
-									%>
-									<tr>
-										<td><%=lst.get(i).getIdConv()%></td>
-										<td><%=lst.get(i).getTypeConv().getNameType()%></td>
-										<td>
-											<%
-												out.print(lst.get(i).getParticipant1());
-											%>
-										</td>
-										<td>
-											<%
-												out.print(lst.get(i).getParticipant2());
-											%>
-										</td>
-										<td>
-											<%
-												out.print(lst.get(i).getParticipant3());
-											%>
-										</td>
-										<td>
-											<%
-												out.print(lst.get(i).getParticipant4());
-											%>
-										</td>
-										<td><%=lst.get(i).getDateEditionConv()%></td>
-										<td><%=lst.get(i).getSateSigConv()%></td>
-										<td><%=lst.get(i).getObjetConv()%></td>
-										<td><%=lst.get(i).getDateVigueurConv()%></td>
-										<td><%=lst.get(i).getDateExpConv()%></td>
-										<%
-											out.println("<td>  <a class='btn btn-block btn-social btn-bitbucket' href ='ConventionControlleur?id="
-														+ lst.get(i).getIdConv() + "&action=modifier"
-														+ "'  onclick='return confirm(\"Voulez vous vraiment moifier  cette Convention ?\")'    >  <i class='fa fa-trash-o'></i> Modifer</a> </td>");
-										%>
-										<%
-											out.println("<td>  <a class='btn btn-block btn-social btn-bitbucket' href ='ConventionControlleur?id="
-														+ ((Convention) lst.get(i)).getIdConv() + "&action=supprimer"
-														+ "'  onclick='return confirm(\"Voulez vous vraiment supprimer cette Convention ?\")'    >  <i class='fa fa-trash-o'></i> Supprimer</a> </td>");
-										%>
-
-									</tr>
-									<%
-										}
-									%>
-
-								</tbody>
-							</table>
-							<!-- /.table-responsive -->
-						</div>
-						<!-- /.panel-body -->
+						<button id="myBtn" type="button" onclick="printData()"
+							class="fas fa-print">print</button>
 					</div>
-					<!-- /.panel -->
-				</div>
-				<!-- /.col-lg-12 -->
-			</div>
-			<!-- /.row -->
+					<!-- /.panel-heading -->
+					<div class="card-body">
+						<table width="100%" class="table table-bordered table-striped"
+							id="dataTables-example">
+							<thead>
+								<tr>
+									<td>TYPE</td>
+									<td>PARTICIPANT N1</td>
+									<td>PARTICIPANT N2</td>
+									<td>PARTICIPANT N3</td>
+									<td>PARTICIPANT N4</td>
+									<td>DATE D'EDITION</td>
+									<td>OBJET</td>
+									<td>ENTRÉE EN VIGUEUR</td>
+									<td>EXPIRATION</td>
+									<td>ACTION</td>
 
-			<!-- /.table-responsive -->
+								</tr>
+							</thead>
+							<tbody>
+								<%
+								ConventionDao convDao = new ConventionDao();
+							Part_ConvDao part_ConvDao = new Part_ConvDao();
+							List<Part_Conv> lst2 = part_ConvDao.getAllPart_Convs();
+								List<Convention> lst = convDao.getAllConventions();
+								for (int i = 0; i < lst.size(); i++) {
+									
+							%>
+							<tr>
+								<td><%=lst.get(i).getTypeConv().getNameType()%></td>
+								<%
+								int x=0;
+								for (int j = 0; j < lst2.size(); j++) {
+									if(lst2.get(j).getConvention().getIdConv()==lst.get(i).getIdConv()){
+										x++;
+								%>
+										
+									<td>
+									<% 
+										out.print(lst2.get(j).getParticipant().getNameParticipant()+"   "+lst2.get(j).getDateSigConv());
+									%>
+								</td>	
+								<% 		
+									}
+								}
+								
+								%>
+								<%for (int h = x; h < 4; h++) {
+									
+								 %>
+								<td></td>
+								<%}%>
+								
+								
+								
+								
+								<td><%=lst.get(i).getDateEditionConv()%></td>
+								<td><%=lst.get(i).getObjetConv()%></td>
+								<td><%=lst.get(i).getDateVigueurConv()%></td>
+								<td><%=lst.get(i).getDateExpConv()%></td>
+
+									<%
+										out.println("<td>  <a class='btn btn-info' href ='ConventionControlleur?id=" + lst.get(i).getIdConv()
+													+ "&action=modifier"
+													+ "'  onclick='return confirm(\"Voulez vous vraiment moifier  cette Convention ?\")'    >  <i class='fas fa-edit'></i> </a> ");
+									%>
+									<%
+										out.println("  <a class='btn btn-danger' href ='ConventionControlleur?id="
+													+ ((Convention) lst.get(i)).getIdConv() + "&action=supprimer"
+													+ "'  onclick='return confirm(\"Voulez vous vraiment supprimer cette Convention ?\")'    >  <i class='fas fa-trash'></i> </a></td> ");
+									%>
+
+								</tr>
+								<%
+									}
+								%>
+
+							</tbody>
+						</table>
+						<!-- /.table-responsive -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.panel-body -->
-	</section>
+		<!-- /.row -->
+
+		<!-- /.table-responsive -->
+	</div>
+	<!-- /.panel-body --> </section>
 	<!-- jQuery -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 
@@ -191,7 +196,7 @@
 			for (var i = 0; i < x; i++) {
 				var row = document.createElement("tr");
 				var y = divToPrint.rows[i].cells.length;
-				for (var j = 1; j < y; j++) {
+				for (var j = 0; j < y-1; j++) {
 					var cell = document.createElement("td");
 					var cellText = document
 							.createTextNode(divToPrint.rows[i].cells[j].innerHTML);

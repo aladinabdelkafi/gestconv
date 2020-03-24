@@ -70,31 +70,31 @@
 								id="dataTables-example">
 								<thead>
 									<tr>
-										<td>N°</td>
-										<td>TYPE</td>
-										<td>ACTION</td>
+										<td>    N°     </td>
+										<td>     Nom     </td>
+										<td>    ACTION     </td>
 										
 									</tr>
 								</thead>
 								<tbody>
 									<%
-										TypeConvDao typeConvDao = new TypeConvDao();
-										List<TypeConv> lst = typeConvDao.getAllTypeConv();
+									ParticipentDao participentDao = new ParticipentDao();
+										List<Participant> lst = participentDao.getAllParticipant();
 										for (int i = 0; i < lst.size(); i++) {
 									%>
 									<tr>
-										<td><%=lst.get(i).getIdType()%></td>
-										<td><%=lst.get(i).getNameType()%></td>
+										<td><%=lst.get(i).getIdParticipant()%></td>
+										<td><%=lst.get(i).getNameParticipant()%></td>
 										
 										<%
-											out.println("<td>  <a class='btn btn-info' href ='TypeControlleur?id="
-														+ lst.get(i).getIdType() + "&action=modifier"
+											out.println("<td>  <a class='btn btn-info' href ='ParticipentControlleur?id="
+														+ lst.get(i).getIdParticipant() + "&action=modifier"
 														+ "'  onclick='return confirm(\"Voulez vous vraiment moifier  cette Convention ?\")'    >  <i class='fas fa-edit'></i> </a> ");
 										%>
 										<%
-											out.println("  <a class='btn btn-danger' href ='TypeControlleur?id="
-														+ lst.get(i).getIdType() + "&action=supprimer"
-														+ "'  onclick='return confirm(\"Voulez vous vraiment supprimer cette Convention ?\")'    >  <i class='fa fa-trash'></i> </a> </td>");
+											out.println(" <a class='btn btn-danger' href ='ParticipentControlleur?id="
+														+ lst.get(i).getIdParticipant() + "&action=supprimer"
+														+ "'  onclick='return confirm(\"Voulez vous vraiment supprimer cette Convention ?\")'    >  <i class='fas fa-trash'></i> </a> </td>");
 										%>
 
 									</tr>

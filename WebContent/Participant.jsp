@@ -57,18 +57,18 @@
 		</ul>
 		<%
 			// gestion de la saisie de  l'utilisateur en cours
-			int idType = -1;
-			String typeConv = null;
+			int idPart = -1;
+			String nomPart = null;
 
-			if (typeConv == null)
-				typeConv = "";
+			if (nomPart == null)
+				nomPart = "";
 
-			TypeConv type = (TypeConv) request.getAttribute("type");
+			Participant participant = (Participant) request.getAttribute("part");
 
-			if (type != null) {
+			if (participant != null) {
 				
-				idType = type.getIdType();
-				typeConv = type.getNameType();
+				idPart = participant.getIdParticipant();
+				nomPart = participant.getNameParticipant();
 
 			}
 
@@ -77,7 +77,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 id="titre" class="page-header">Ajouter un type de Convention</h1>
+					<h1 id="titre" class="page-header">Ajouter un Participant</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
@@ -89,12 +89,12 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-6">
-									<form action="TypeControlleur" method="POST" role="form">
-										<input id="idType" name="idType" type="hidden" value="<%=idType%>">
+									<form action="ParticipentControlleur" method="POST" role="form">
+										<input id="idPart" name="idPart" type="hidden" value="<%=idPart%>">
 
 										<div class="form-group">
 											<label><h4>Type Convention</h4> </label> <input type="text"
-												name="typeConv" class="form-control" value="<%=typeConv%>">
+												name="nomPart" class="form-control" value="<%=nomPart%>">
 											<p class="help-block"></p>
 
 										</div>
@@ -154,12 +154,13 @@
 	<script type="text/javascript">
 	function Test()
 	{ 
-		var Valh = document.getElementById("idType").value;
+		var Valh = document.getElementById("idPart").value;
 		if(Valh!=-1){
-			document.getElementById("titre").innerHTML = "Modifier un type de Convention";
+			document.getElementById("titre").innerHTML = "Modifier un Participant";
 		}
 	}
 	</script>
+	
 </body>
 
 </html>

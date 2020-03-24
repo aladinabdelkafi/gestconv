@@ -68,7 +68,6 @@
 								<td>PARTICIPANT N3</td>
 								<td>PARTICIPANT N4</td>
 								<td>DATE D'EDITION</td>
-								<td>DATE DE SIGNATURE</td>
 								<td>OBJET</td>
 								<td>DATE D'ENTRÉE EN VIGUEUR</td>
 								<td>DATE D'EXPIRATION</td>
@@ -77,33 +76,41 @@
 						<tbody>
 							<%
 								ConventionDao convDao = new ConventionDao();
+							Part_ConvDao part_ConvDao = new Part_ConvDao();
+							List<Part_Conv> lst2 = part_ConvDao.getAllPart_Convs();
 								List<Convention> lst = convDao.getAllConventions();
 								for (int i = 0; i < lst.size(); i++) {
+									
 							%>
 							<tr>
 								<td><%=lst.get(i).getTypeConv().getNameType()%></td>
-								<td>
-									<%
-										out.print(lst.get(i).getParticipant1());
+								<%
+								int x=0;
+								for (int j = 0; j < lst2.size(); j++) {
+									if(lst2.get(j).getConvention().getIdConv()==lst.get(i).getIdConv()){
+										x++;
+								%>
+										
+									<td>
+									<% 
+										out.print(lst2.get(j).getParticipant().getNameParticipant()+"   "+lst2.get(j).getDateSigConv());
 									%>
-								</td>
-								<td>
-									<%
-										out.print(lst.get(i).getParticipant2());
-									%>
-								</td>
-								<td>
-									<%
-										out.print(lst.get(i).getParticipant3());
-									%>
-								</td>
-								<td>
-									<%
-										out.print(lst.get(i).getParticipant4());
-									%>
-								</td>
+								</td>	
+								<% 		
+									}
+								}
+								
+								%>
+								<%for (int h = x; h < 4; h++) {
+									
+								 %>
+								<td></td>
+								<%}%>
+								
+								
+								
+								
 								<td><%=lst.get(i).getDateEditionConv()%></td>
-								<td><%=lst.get(i).getSateSigConv()%></td>
 								<td><%=lst.get(i).getObjetConv()%></td>
 								<td><%=lst.get(i).getDateVigueurConv()%></td>
 								<td><%=lst.get(i).getDateExpConv()%></td>

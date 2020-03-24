@@ -99,6 +99,8 @@ public class ConventionDao {
 		}
 		return conventions;
 	}
+	
+	
 	public Convention getConventionById(int id) {
 		Convention objConvention = null;
 		Transaction trns = null;
@@ -119,4 +121,23 @@ public class ConventionDao {
 		}
 		return objConvention;
 	}
+	
+	
+	
+	
+	public  ArrayList<Convention> getLastId() {
+		ArrayList<Convention> conventions = new ArrayList<Convention>();
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns = session.beginTransaction();
+			conventions = (ArrayList<Convention>) session.createQuery("from Convention ORDER BY idConv DESC LIMIT 0, 1").list();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return conventions;
+}
 }
