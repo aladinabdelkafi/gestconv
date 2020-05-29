@@ -83,7 +83,7 @@ public class ConventionDao {
 		return conventions;
 	}
 
-	public ArrayList<Convention> getAllConventions_universitaire(String type) {
+	public ArrayList<Convention> getAllConventions_universitaire(int type) {
 		ArrayList<Convention> conventions = new ArrayList<Convention>();
 		Transaction trns = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -98,6 +98,8 @@ public class ConventionDao {
 		}
 		return conventions;
 	}
+	
+	
 	public Convention getConventionById(int id) {
 		Convention objConvention = null;
 		Transaction trns = null;
@@ -105,7 +107,7 @@ public class ConventionDao {
 
 		try {
 			trns = session.beginTransaction();
-			String queryString = "from Convention where id = :id";
+			String queryString = "from Convention where idConv = :id";
 			Query query = session.createQuery(queryString);
 			query.setInteger("id", id);
 			objConvention = (Convention) query.uniqueResult();
@@ -118,4 +120,23 @@ public class ConventionDao {
 		}
 		return objConvention;
 	}
+	
+	
+	
+	
+	public  ArrayList<Convention> getLastId() {
+		ArrayList<Convention> conventions = new ArrayList<Convention>();
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns = session.beginTransaction();
+			conventions = (ArrayList<Convention>) session.createQuery("from Convention ORDER BY idConv DESC LIMIT 0, 1").list();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return conventions;
+}
 }

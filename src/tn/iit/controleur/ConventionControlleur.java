@@ -2,6 +2,7 @@ package tn.iit.controleur;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import tn.iit.dao.ConventionDao;
+import tn.iit.dao.Part_ConvDao;
+import tn.iit.dao.ParticipentDao;
+import tn.iit.dao.TypeConvDao;
 import tn.iit.model.Convention;
+import tn.iit.model.Part_Conv;
+import tn.iit.model.Participant;
+import tn.iit.model.TypeConv;
 
 /**
  * Servlet implementation class FicheEtudiantAction
@@ -34,33 +41,34 @@ public class ConventionControlleur extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		
 		String action = request.getParameter("action");
 		int idConv = Integer.parseInt(request.getParameter("id"));
 		System.out.println(idConv);
 		ConventionDao convDao = new ConventionDao();
-
+		Part_ConvDao Part_ConvDao = new Part_ConvDao();
+		ArrayList<Part_Conv> listPartConv;
 		try {
-
+			
 			if (action != null && action.equals("supprimer")) {
 				System.out.println("supp");
 				convDao.deleteConvention(idConv);
-				request.getRequestDispatcher("tables.jsp").forward(request, response);
-
+				// request.getRequestDispatcher("list_conv.jsp").forward(request, response);
+				response.sendRedirect("list_conv.jsp");
 			}
 
 			if (action != null && action.equals("modifier")) {
 				System.out.println("modifier");
 				Convention conv = new Convention();
 				conv = convDao.getConventionById(idConv);
-
-				// passer l'objet trouvé comme attribut dans la requête
+				listPartConv=Part_ConvDao.getConventionsbyid(idConv);
+				
+				
 				request.setAttribute("convention", conv);
-				// passer au formulaire
-				request.getRequestDispatcher("forms.jsp").forward(request, response);
+				request.setAttribute("conventionParticipant", listPartConv);
+				request.getRequestDispatcher("convention.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -72,32 +80,79 @@ public class ConventionControlleur extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		ArrayList<Convention> arrlist;
+		TypeConv type;
+		TypeConvDao typeconvDao = new TypeConvDao();
+		Part_ConvDao partconvDao = new Part_ConvDao();
 		ConventionDao convDao = new ConventionDao();
+		ParticipentDao pDao = new ParticipentDao();
 		Convention conv;
+		Participant part;
 		int idConv = Integer.parseInt(request.getParameter("idConv"));
 		String typeConv = request.getParameter("typeConv");
 		LocalDate dateEditionConv = LocalDate.parse(request.getParameter("dateEditionConv"));
-		LocalDate dateSigConv = LocalDate.parse(request.getParameter("dateSigConv"));
 		String objetConv = request.getParameter("objetConv");
 		LocalDate dateVigueurConv = LocalDate.parse(request.getParameter("dateVigueurConv"));
 		LocalDate dateExpConv = LocalDate.parse(request.getParameter("dateExpConv"));
-		String participant1 = request.getParameter("participant1");
-		String participant2 = request.getParameter("participant2");
-		String participant3 = request.getParameter("participant3");
-		String participant4 = request.getParameter("participant4");
-
-		// System.out.println(conv.toString() );
-		if (idConv == -1) {
-			conv = new Convention(typeConv, dateEditionConv, dateSigConv, objetConv, dateVigueurConv, dateExpConv,
-					participant1, participant2, participant3, participant4);
-			convDao.addConvention(conv);
-		} else {
-			conv = new Convention(idConv, typeConv, dateEditionConv, dateSigConv, objetConv, dateVigueurConv,
-					dateExpConv, participant1, participant2, participant3, participant4);
-			convDao.updateConvention(conv);
+		
+		String[] parts = request.getParameterValues("parts");
+		LocalDate date1;
+		LocalDate date2 ;
+		LocalDate date3 ;
+		LocalDate date4 ;
+		if(request.getParameter("date1").equals("")) {
+			 date1=null;
+		}else {
+			date1 = LocalDate.parse(request.getParameter("date1"));
 		}
+		
+		if(request.getParameter("date2").equals("")) {
+			 date2=null;
+		}else {
+			date2 = LocalDate.parse(request.getParameter("date2"));
+		}
+		
+		if(request.getParameter("date3").equals("")) {
+			 date3=null;
+		}else {
+			date3 = LocalDate.parse(request.getParameter("date3"));
+		}
+		
+		if(request.getParameter("date4").equals("")) {
+			 date4=null;
+		}else {
+			date4 = LocalDate.parse(request.getParameter("date4"));
+		}
+		
+		LocalDate[] date={date1,date2,date3,date4};
+		type = typeconvDao.getTypeConventionById(Integer.parseInt(typeConv));
 
-		request.getRequestDispatcher("tables.jsp").forward(request, response);
+		if (idConv == -1) {
+			conv = new Convention(type, dateEditionConv, objetConv, dateVigueurConv, dateExpConv);
+			convDao.addConvention(conv);
+			arrlist = convDao.getLastId();
+			
+			for (int i = 0; i < parts.length; i++) {
+				part = pDao.getParticipantById(Integer.parseInt(parts[i]));
+				partconvDao.addPart_Conv(new Part_Conv(arrlist.get(0),part,date[i]));
+			}
+
+		}
+	
+		 else {
+			 convDao.deleteConvention(idConv);
+			 conv = new Convention(type, dateEditionConv, objetConv, dateVigueurConv, dateExpConv);
+				convDao.addConvention(conv);
+				arrlist = convDao.getLastId();
+				
+				for (int i = 0; i < parts.length; i++) {
+					part = pDao.getParticipantById(Integer.parseInt(parts[i]));
+					partconvDao.addPart_Conv(new Part_Conv(arrlist.get(0),part,date[i]));
+				}
+				}
+		  response.sendRedirect("list_conv.jsp");
+		 
 	}
 
 }

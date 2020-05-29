@@ -12,5 +12,10 @@
 		<property name="show_sql">true</property>
 		<property name="hbm2ddl.auto">update</property>
 		<mapping class="tn.iit.model.Convention" />
+		<mapping class="tn.iit.model.TypeConv" />
+		<mapping class="tn.iit.model.Users" />
+		<mapping class="tn.iit.model.Participant" />
+		<mapping class="tn.iit.model.PartConvId" />
+		<mapping class="tn.iit.model.Part_Conv" />
 	</session-factory>
 </hibernate-configuration> 
