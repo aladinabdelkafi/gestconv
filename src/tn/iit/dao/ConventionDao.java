@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import tn.iit.model.Convention;
-import tn.iit.model.TypeConv;
 import tn.iit.util.HibernateUtil;
 
 public class ConventionDao {
