@@ -66,7 +66,7 @@
 			TypeConv type = (TypeConv) request.getAttribute("type");
 
 			if (type != null) {
-				
+
 				idType = type.getIdType();
 				typeConv = type.getNameType();
 
@@ -74,92 +74,81 @@
 
 			// Correction des  valleurs nulles
 		%>
-		<div id="page-wrapper">
+		<div id="page-wrapper" class="content-wrapper">
+			<br> <br> <br> <br>
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 id="titre" class="page-header">Ajouter un type de Convention</h1>
+					<div class="card card-primary">
+						<div class="card-header">
+							<h1 id="titre" class="page-header">Ajouter Type Convention</h1>
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+
+							<form action="ParticipentControlleur" method="POST">
+								<input id="idType" name="idType" type="hidden"
+									value="<%=idType%>">
+
+								<div class="form-group">
+									<label><h4>Type Convention</h4> </label> <input type="text"
+										name="typeConv" class="form-control" value="<%=typeConv%>">
+									<p class="help-block"></p>
+
+								</div>
+								<div class="card-footer">
+									<button type="submit" class="btn btn-primary">Submit</button>
+								</div>
+							</form>
+
+
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
-			<!-- /.row -->
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading"></div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-lg-6">
-									<form action="TypeControlleur" method="POST" role="form">
-										<input id="idType" name="idType" type="hidden" value="<%=idType%>">
 
-										<div class="form-group">
-											<label><h4>Type Convention</h4> </label> <input type="text"
-												name="typeConv" class="form-control" value="<%=typeConv%>">
-											<p class="help-block"></p>
-
-										</div>
-										<button type="submit" class="btn btn-default">Submit</button>
-										<button type="reset" class="btn btn-default">Reset</button>
-									</form>
-								</div>
-								<!-- /.col-lg-6 (nested) -->
-
-
-
-							</div>
-							<!-- /.col-lg-6 (nested) -->
-						</div>
-						<!-- /.row (nested) -->
-					</div>
-					<!-- /.panel-body -->
-				</div>
-				<!-- /.panel -->
-			</div>
-			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.row -->
-	</div>
-	<!-- /#page-wrapper -->
 
-	</div>
-	<!-- /#wrapper -->
 
-	<!-- jQuery -->
-	<script src="vendor/jquery/jquery.min.js"></script>
 
-	<!-- Bootstrap Core JavaScript -->
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
-	<!-- Metis Menu Plugin JavaScript -->
-	<script src="vendor/metisMenu/metisMenu.min.js"></script>
+		<!-- jQuery -->
+		<script src="vendor/jquery/jquery.min.js"></script>
 
-	<!-- Custom Theme JavaScript -->
-	<script src="dist/js/sb-admin-2.js"></script>
-	<script type="text/javascript"
-		src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
-		
-	</script>
-	<script type="text/javascript"
-		src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
-		
-	</script>
-	<script type="text/javascript"
-		src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-		
-	</script>
-	<script type="text/javascript"
-		src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
-		
-	</script>
-	<script type="text/javascript">
-	function Test()
-	{ 
-		var Valh = document.getElementById("idType").value;
-		if(Valh!=-1){
-			document.getElementById("titre").innerHTML = "Modifier un type de Convention";
-		}
-	}
-	</script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+		<!-- Metis Menu Plugin JavaScript -->
+		<script src="vendor/metisMenu/metisMenu.min.js"></script>
+
+		<!-- Custom Theme JavaScript -->
+		<script src="dist/js/sb-admin-2.js"></script>
+		<script type="text/javascript"
+			src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+			
+		</script>
+		<script type="text/javascript"
+			src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+			
+		</script>
+		<script type="text/javascript"
+			src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+			
+		</script>
+		<script type="text/javascript"
+			src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+			
+		</script>
+		<script type="text/javascript">
+			function Test() {
+				var Valh = document.getElementById("idType").value;
+				if (Valh != -1) {
+					document.getElementById("titre").innerHTML = "Modifier un type de Convention";
+				}
+			}
+		</script>
 </body>
 
 </html>

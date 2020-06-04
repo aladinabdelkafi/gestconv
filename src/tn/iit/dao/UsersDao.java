@@ -85,7 +85,7 @@ public class UsersDao {
 			session.flush();
 			session.close();
 		}
-		System.out.println(objUser.toString());
+		//System.out.println(objUser.toString());
 		return objUser;
 	}
 

@@ -42,82 +42,77 @@
 <link href="vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
 
 </head>
 
 <body>
 
-	
-		<!-- Navigation -->
-<section class="content">
-		<div id="page-wrapper" class="content-wrapper">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="card">
-						<div class="card-header">
-						<h1 id='lst' class="page-header">Liste des Types de Conventions</h1>
-							
-						</div>
-						<!-- /.panel-heading -->
-						<div class="card-body">
-							<table width="100%" class="table table-bordered table-striped"
-								id="dataTables-example">
-								<thead>
-									<tr>
-										<td>N°</td>
-										<td>TYPE</td>
-										<td>ACTION</td>
-										
-									</tr>
-								</thead>
-								<tbody>
-									<%
-										TypeConvDao typeConvDao = new TypeConvDao();
-										List<TypeConv> lst = typeConvDao.getAllTypeConv();
-										for (int i = 0; i < lst.size(); i++) {
-									%>
-									<tr>
-										<td><%=lst.get(i).getIdType()%></td>
-										<td><%=lst.get(i).getNameType()%></td>
-										
-										<%
-											out.println("<td>  <a class='btn btn-info' href ='TypeControlleur?id="
-														+ lst.get(i).getIdType() + "&action=modifier"
-														+ "'  onclick='return confirm(\"Voulez vous vraiment moifier  cette Convention ?\")'    >  <i class='fas fa-edit'></i> </a> ");
-										%>
-										<%
-											out.println("  <a class='btn btn-danger' href ='TypeControlleur?id="
-														+ lst.get(i).getIdType() + "&action=supprimer"
-														+ "'  onclick='return confirm(\"Voulez vous vraiment supprimer cette Convention ?\")'    >  <i class='fa fa-trash'></i> </a> </td>");
-										%>
-
-									</tr>
-									<%
-										}
-									%>
-
-								</tbody>
-							</table>
-							<!-- /.table-responsive -->
-						</div>
-						<!-- /.panel-body -->
+	<div id="page-wrapper" class="content-wrapper">
+	<br><br><br><br>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<h1>Liste des Types de Conventions</h1>
 					</div>
-					<!-- /.panel -->
-				</div>
-				<!-- /.col-lg-12 -->
-			</div>
-			<!-- /.row -->
+					<!-- /.card-header -->
+					<div class="card-body">
+						<table id="example1" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<td>N°</td>
+									<td>TYPE</td>
+									<td>ACTION</td>
 
-			<!-- /.table-responsive -->
+								</tr>
+							</thead>
+							<tbody>
+								<%
+									TypeConvDao typeConvDao = new TypeConvDao();
+									List<TypeConv> lst = typeConvDao.getAllTypeConv();
+									for (int i = 0; i < lst.size(); i++) {
+								%>
+								<tr>
+									<td><%=lst.get(i).getIdType()%></td>
+									<td><%=lst.get(i).getNameType()%></td>
+
+									<%
+										out.println("<td>  <a class='btn btn-info' href ='TypeControlleur?id=" + lst.get(i).getIdType()
+													+ "&action=modifier"
+													+ "'  onclick='return confirm(\"Voulez vous vraiment moifier  cette Convention ?\")'    >  <i class='fas fa-edit'></i> </a> ");
+									%>
+									<%
+										out.println("  <a class='btn btn-danger' href ='TypeControlleur?id=" + lst.get(i).getIdType()
+													+ "&action=supprimer"
+													+ "'  onclick='return confirm(\"Voulez vous vraiment supprimer cette Convention ?\")'    >  <i class='fa fa-trash'></i> </a> </td>");
+									%>
+
+								</tr>
+								<%
+									}
+								%>
+
+							</tbody>
+							<tfoot>
+								<tr>
+									<td>N°</td>
+									<td>TYPE</td>
+									<td>ACTION</td>
+
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+			</div>
+			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.panel-body -->
-	</section>
+
+	</div>
+
 	<!-- jQuery -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 
@@ -142,7 +137,6 @@
 				responsive : true
 			});
 		});
-
 	</script>
 
 

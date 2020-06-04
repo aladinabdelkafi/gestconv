@@ -39,90 +39,67 @@
 <link rel="stylesheet" type="text/css" media="screen"
 	href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
 <body onload="Test()">
 
-	<div id="wrapper">
+	<%
+		int idPart = -1;
+		String nomPart = null;
 
-		<!-- Navigation -->
+		if (nomPart == null)
+			nomPart = "";
 
-		</ul>
-		<%
-			// gestion de la saisie de  l'utilisateur en cours
-			int idPart = -1;
-			String nomPart = null;
+		Participant participant = (Participant) request.getAttribute("part");
 
-			if (nomPart == null)
-				nomPart = "";
+		if (participant != null) {
 
-			Participant participant = (Participant) request.getAttribute("part");
+			idPart = participant.getIdParticipant();
+			nomPart = participant.getNameParticipant();
 
-			if (participant != null) {
-				
-				idPart = participant.getIdParticipant();
-				nomPart = participant.getNameParticipant();
+		}
+	%>
 
-			}
-
-			// Correction des  valleurs nulles
-		%>
-		<div id="page-wrapper">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 id="titre" class="page-header">Ajouter un Participant</h1>
-				</div>
-				<!-- /.col-lg-12 -->
-			</div>
-			<!-- /.row -->
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading"></div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-lg-6">
-									<form action="ParticipentControlleur" method="POST" role="form">
-										<input id="idPart" name="idPart" type="hidden" value="<%=idPart%>">
-
-										<div class="form-group">
-											<label><h4>Type Convention</h4> </label> <input type="text"
-												name="nomPart" class="form-control" value="<%=nomPart%>">
-											<p class="help-block"></p>
-
-										</div>
-										<button type="submit" class="btn btn-default">Submit</button>
-										<button type="reset" class="btn btn-default">Reset</button>
-									</form>
+	<div id="page-wrapper" class="content-wrapper">
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card card-primary">
+					<div class="card-header">
+						<h1 id="titre" class="page-header">Ajouter un Participant</h1>
+					</div>
+					<!-- /.card-header -->
+					<div class="card-body">
+						<form action="ParticipentControlleur" method="POST">
+							<input id="idPart" name="idPart" type="hidden"
+								value="<%=idPart%>">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Nom Participant</label> <input type="text"
+										name="nomPart" value="<%=nomPart%>">
 								</div>
-								<!-- /.col-lg-6 (nested) -->
-
-
 
 							</div>
-							<!-- /.col-lg-6 (nested) -->
-						</div>
-						<!-- /.row (nested) -->
+							<!-- /.card-body -->
+
+							<div class="card-footer">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</form>
 					</div>
-					<!-- /.panel-body -->
+					<!-- /.card-body -->
 				</div>
-				<!-- /.panel -->
+				<!-- /.card -->
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.row -->
-	</div>
-	<!-- /#page-wrapper -->
 
 	</div>
-	<!-- /#wrapper -->
+
 
 	<!-- jQuery -->
 	<script src="vendor/jquery/jquery.min.js"></script>
@@ -152,15 +129,14 @@
 		
 	</script>
 	<script type="text/javascript">
-	function Test()
-	{ 
-		var Valh = document.getElementById("idPart").value;
-		if(Valh!=-1){
-			document.getElementById("titre").innerHTML = "Modifier un Participant";
+		function Test() {
+			var Valh = document.getElementById("idPart").value;
+			if (Valh != -1) {
+				document.getElementById("titre").innerHTML = "Modifier un Participant";
+			}
 		}
-	}
 	</script>
-	
+
 </body>
 
 </html>

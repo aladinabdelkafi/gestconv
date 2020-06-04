@@ -11,6 +11,7 @@ import tn.iit.model.TypeConv;
 import tn.iit.util.HibernateUtil;
 
 public class TypeConvDao {
+	
 	public void addTypeConvention(TypeConv objTypeConv) {
 		Transaction trns = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -72,10 +73,10 @@ public class TypeConvDao {
 	
 	public ArrayList<TypeConv> getAllTypeConv() {
 		ArrayList<TypeConv> typeConvs = new ArrayList<TypeConv>();
-		Transaction trns = null;
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
-			trns = session.beginTransaction();
+			Transaction trns = session.beginTransaction();
 			typeConvs = (ArrayList<TypeConv>) session.createQuery("from TypeConv").list();
 		} catch (RuntimeException e) {
 			e.printStackTrace();

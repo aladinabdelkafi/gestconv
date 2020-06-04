@@ -8,6 +8,8 @@
 <%@page import="tn.iit.model.*"%>
 <%@page import="org.dom4j.*"%>
 <%@page import="org.hibernate.*"%>
+<%@ page import="com.google.gson.Gson"%>
+<%@ page import="com.google.gson.JsonObject"%>
 <%@include file="nav.jsp"%>
 <%
 	HttpSession sessions = request.getSession();
@@ -16,6 +18,26 @@
 
 		request.getRequestDispatcher("login.jsp").forward(request, response);
 	}
+%>
+
+<%
+	Gson gsonObj = new Gson();
+	Map<Object, Object> map = null;
+	List<Map<Object, Object>> list = new ArrayList<Map<Object, Object>>();
+	ConventionDao convDao = new ConventionDao();
+	TypeConvDao typeconvDao = new TypeConvDao();
+	List<TypeConv> lst2 = typeconvDao.getAllTypeConv();
+	for (int i = 0; i < lst2.size(); i++) {
+		List<Convention> lst1 = convDao.getAllConventions_universitaire(lst2.get(i).getIdType());
+
+		map = new HashMap<Object, Object>();
+		map.put("label", lst2.get(i).getNameType());
+		map.put("y", lst1.size());
+		map.put("exploded", true);
+		list.add(map);
+	}
+
+	String dataPoints = gsonObj.toJson(list);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -59,57 +81,39 @@
 
 	<div id="wrapper">
 
-		<!-- Navigation -->
-
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">Gestion Convention</h1>
+					<div class="col-lg-3 col-6">
+				<!-- small box -->
+				<div class="small-box bg-warning">
+					<div class="inner">
+					<% ParticipentDao partDao = new ParticipentDao(); 
+					List<Participant> lstpart=partDao.getAllParticipant();
+					%>
+						<h3><% out.print(lstpart.size()); %></h3>
+
+						<p>Participants</p>
+					</div>
+					<div class="icon">
+						<i class="ion ion-person-add"></i>
+					</div>
+					<a href="list_participant.jsp" class="small-box-footer">More
+						info <i class="fas fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+			<!-- ./col -->
+<div class="col-lg-12">
+			<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+			</div>
+			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+					
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
-			
-			
-			
-			
-			<!-- /.row -->
-			<div class="row">
-				<div class="card">
-					<div class="card-header border-0">
-						<h3 class="card-title">Nombre de convention par Type</h3>
-					</div>
-					<div class="card-body">
-						<%
-							ConventionDao convDao = new ConventionDao();
-							TypeConvDao typeconvDao = new TypeConvDao();
-							List<TypeConv> lst2 = typeconvDao.getAllTypeConv();
-							for (int i = 0; i < lst2.size(); i++) {
-								List<Convention> lst1 = convDao.getAllConventions_universitaire(lst2.get(i).getIdType());
-								int s1 = lst1.size();
-						%>
-						<div
-							class="d-flex justify-content-between align-items-center border-bottom mb-3">
-							<p class="text-success text-xl"></p>
-							<p class="d-flex flex-column text-right">
-							
-								<span class="text-success"> </i> <%=s1%>
-								</span> <b><span class="text-muted"> <%
- 	out.print(lst2.get(i).getNameType());
- %>
-								</span></b>
-							</p>
-						</div>
-						<%
-							}
-						%>
-					</div>
-				</div>
-			</div>
-			<!-- /.row -->
 
-
-
-			<div class="row"></div>
 			<!-- /.row -->
 		</div>
 		<!-- /#page-wrapper -->
@@ -133,7 +137,33 @@
 
 	<!-- Custom Theme JavaScript -->
 	<script src="dist/js/sb-admin-2.js"></script>
+	<script src="plugins/chart.js/Chart.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
 
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme : "light2",
+				animationEnabled : true,
+				exportFileName : "pourcentage de convention par Type",
+				exportEnabled : true,
+				title : {
+					text : "Pourcentage de convention par Type"
+				},
+				data : [ {
+					type : "pie",
+					showInLegend : true,
+					legendText : "{label}",
+					toolTipContent : "{label}: <strong>{y}</strong>",
+					indexLabel : "{label} {y}",
+					dataPoints :
+	<%out.print(dataPoints);%>
+		} ]
+			});
+
+			chart.render();
+
+		}
+	</script>
 </body>
 
 </html>
