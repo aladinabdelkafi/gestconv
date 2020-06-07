@@ -1,5 +1,6 @@
 package tn.iit.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import org.hibernate.Query;
@@ -124,19 +125,23 @@ public class ConventionDao {
 	
 	
 	
-	public  ArrayList<Convention> getLastId() {
+	public  BigInteger getLastId() {
+		
 		ArrayList<Convention> conventions = new ArrayList<Convention>();
+		Convention conv = null;
 		Transaction trns = null;
+		BigInteger lastId = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
 			trns = session.beginTransaction();
-			conventions = (ArrayList<Convention>) session.createQuery("from Convention ORDER BY idConv DESC LIMIT 0, 1").list();
+			//conv = (Convention) session.createQuery(" from Convention ORDER BY idConv DESC LIMIT 0, 1").uniqueResult();
+			 lastId = ((BigInteger) session.createSQLQuery("SELECT LAST_INSERT_ID()").uniqueResult());
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 		} finally {
 			session.flush();
 			session.close();
 		}
-		return conventions;
+		return lastId;
 }
 }

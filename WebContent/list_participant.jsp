@@ -8,6 +8,15 @@
 <%@page import="org.dom4j.*"%>
 <%@page import="org.hibernate.*"%>
 <%@include file="nav.jsp"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%
+	HttpSession sessions = request.getSession();
+
+	if (sessions.getAttribute("login") == null && sessions.getAttribute("password") == null) {
+
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+	}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -52,7 +61,7 @@
 	<br><br><br><br>
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="card">
+				<div class="card card-primary card-outline">
 					<div class="card-header">
 
 						<h1>Liste des Participents</h1>

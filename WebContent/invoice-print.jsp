@@ -7,6 +7,15 @@
 <%@page import="tn.iit.model.*"%>
 <%@page import="org.dom4j.*"%>
 <%@page import="org.hibernate.*"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%
+	HttpSession sessions = request.getSession();
+
+	if (sessions.getAttribute("login") == null && sessions.getAttribute("password") == null) {
+
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>

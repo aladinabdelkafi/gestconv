@@ -55,7 +55,8 @@ public class LoginControlleur extends HttpServlet {
 			HttpSession session= request.getSession();
 			session.setAttribute("login",login );
 			session.setAttribute("password",password);
-			request.getRequestDispatcher("index.jsp").forward(request, response);
+			//request.getRequestDispatcher("index.jsp").forward(request, response);
+			response.sendRedirect("index.jsp");
 			
 		}
 

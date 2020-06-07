@@ -8,6 +8,15 @@
 <%@page import="org.dom4j.*"%>
 <%@page import="org.hibernate.*"%>
 <%@include file="nav.jsp"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%
+	HttpSession sessions = request.getSession();
+
+	if (sessions.getAttribute("login") == null && sessions.getAttribute("password") == null) {
+
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+	}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -42,31 +51,26 @@
 <link href="vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 
 <body>
 
 
-	<!-- Navigation -->
-	<section class="content">
+
 	<div id="page-wrapper" class="content-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="card">
+				<div class="card card-primary card-outline">
 					<div class="card-header">
-						<h1 id='lst' class="page-header">Liste des Conventions</h1>
-						<button id="myBtn" type="button" onclick="printData()"
-							class="fas fa-print">print</button>
+						<h1 id='lst' class="page-header" >Liste des Conventions</h1>
+
 					</div>
 					<!-- /.panel-heading -->
 					<div class="card-body">
+						<button id="myBtn" type="button"
+							class="btn btn-block btn-outline-primary btn-lg"
+							onclick="printData()">print</button>
+
 						<table width="100%" class="table table-bordered table-striped"
 							id="dataTables-example">
 							<thead>
@@ -86,45 +90,46 @@
 							</thead>
 							<tbody>
 								<%
-								ConventionDao convDao = new ConventionDao();
-							Part_ConvDao part_ConvDao = new Part_ConvDao();
-							List<Part_Conv> lst2 = part_ConvDao.getAllPart_Convs();
-								List<Convention> lst = convDao.getAllConventions();
-								for (int i = 0; i < lst.size(); i++) {
-									
-							%>
-							<tr>
-								<td><%=lst.get(i).getTypeConv().getNameType()%></td>
-								<%
-								int x=0;
-								for (int j = 0; j < lst2.size(); j++) {
-									if(lst2.get(j).getConvention().getIdConv()==lst.get(i).getIdConv()){
-										x++;
+									ConventionDao convDao = new ConventionDao();
+									Part_ConvDao part_ConvDao = new Part_ConvDao();
+									List<Part_Conv> lst2 = part_ConvDao.getAllPart_Convs();
+									List<Convention> lst = convDao.getAllConventions();
+									for (int i = 0; i < lst.size(); i++) {
 								%>
-										
-									<td>
-									<% 
-										out.print(lst2.get(j).getParticipant().getNameParticipant()+"   "+lst2.get(j).getDateSigConv());
+								<tr>
+									<td><%=lst.get(i).getTypeConv().getNameType()%></td>
+									<%
+										int x = 0;
+											for (int j = 0; j < lst2.size(); j++) {
+												if (lst2.get(j).getConvention().getIdConv() == lst.get(i).getIdConv()) {
+													x++;
 									%>
-								</td>	
-								<% 		
-									}
-								}
-								
-								%>
-								<%for (int h = x; h < 4; h++) {
-									
-								 %>
-								<td></td>
-								<%}%>
-								
-								
-								
-								
-								<td><%=lst.get(i).getDateEditionConv()%></td>
-								<td><%=lst.get(i).getObjetConv()%></td>
-								<td><%=lst.get(i).getDateVigueurConv()%></td>
-								<td><%=lst.get(i).getDateExpConv()%></td>
+
+									<td>
+										<%
+											out.print(lst2.get(j).getParticipant().getNameParticipant() + "   "
+																+ lst2.get(j).getDateSigConv());
+										%>
+									</td>
+									<%
+										}
+											}
+									%>
+									<%
+										for (int h = x; h < 4; h++) {
+									%>
+									<td></td>
+									<%
+										}
+									%>
+
+
+
+
+									<td><%=lst.get(i).getDateEditionConv()%></td>
+									<td><%=lst.get(i).getObjetConv()%></td>
+									<td><%=lst.get(i).getDateVigueurConv()%></td>
+									<td><%=lst.get(i).getDateExpConv()%></td>
 
 									<%
 										out.println("<td>  <a class='btn btn-info' href ='ConventionControlleur?id=" + lst.get(i).getIdConv()
@@ -143,6 +148,21 @@
 								%>
 
 							</tbody>
+							<tfoot>
+								<tr>
+									<td>TYPE</td>
+									<td>PARTICIPANT N1</td>
+									<td>PARTICIPANT N2</td>
+									<td>PARTICIPANT N3</td>
+									<td>PARTICIPANT N4</td>
+									<td>DATE D'EDITION</td>
+									<td>OBJET</td>
+									<td>ENTRÉE EN VIGUEUR</td>
+									<td>EXPIRATION</td>
+									<td>ACTION</td>
+
+								</tr>
+							</tfoot>
 						</table>
 						<!-- /.table-responsive -->
 					</div>
@@ -156,7 +176,7 @@
 
 		<!-- /.table-responsive -->
 	</div>
-	<!-- /.panel-body --> </section>
+
 	<!-- jQuery -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 
@@ -196,7 +216,7 @@
 			for (var i = 0; i < x; i++) {
 				var row = document.createElement("tr");
 				var y = divToPrint.rows[i].cells.length;
-				for (var j = 0; j < y-1; j++) {
+				for (var j = 0; j < y - 1; j++) {
 					var cell = document.createElement("td");
 					var cellText = document
 							.createTextNode(divToPrint.rows[i].cells[j].innerHTML);

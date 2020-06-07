@@ -7,7 +7,15 @@
 <%@page import="tn.iit.model.*"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@include file="nav.jsp"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%
+	HttpSession sessions = request.getSession();
 
+	if (sessions.getAttribute("login") == null && sessions.getAttribute("password") == null) {
+
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+	}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 

@@ -1,6 +1,7 @@
 package tn.iit.controleur;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -81,7 +82,7 @@ public class ConventionControlleur extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ArrayList<Convention> arrlist;
+		ArrayList<Convention> arrlist=null;
 		TypeConv type;
 		TypeConvDao typeconvDao = new TypeConvDao();
 		Part_ConvDao partconvDao = new Part_ConvDao();
@@ -131,11 +132,12 @@ public class ConventionControlleur extends HttpServlet {
 		if (idConv == -1) {
 			conv = new Convention(type, dateEditionConv, objetConv, dateVigueurConv, dateExpConv);
 			convDao.addConvention(conv);
-			arrlist = convDao.getLastId();
+			arrlist= convDao.getAllConventions();
+			System.out.println(arrlist.get(arrlist.size() - 1).getIdConv());
 			
 			for (int i = 0; i < parts.length; i++) {
 				part = pDao.getParticipantById(Integer.parseInt(parts[i]));
-				partconvDao.addPart_Conv(new Part_Conv(arrlist.get(0),part,date[i]));
+				partconvDao.addPart_Conv(new Part_Conv(arrlist.get(arrlist.size() - 1),part,date[i]));
 			}
 
 		}
@@ -144,11 +146,11 @@ public class ConventionControlleur extends HttpServlet {
 			 convDao.deleteConvention(idConv);
 			 conv = new Convention(type, dateEditionConv, objetConv, dateVigueurConv, dateExpConv);
 				convDao.addConvention(conv);
-				arrlist = convDao.getLastId();
+				BigInteger lastId = convDao.getLastId();
 				
 				for (int i = 0; i < parts.length; i++) {
 					part = pDao.getParticipantById(Integer.parseInt(parts[i]));
-					partconvDao.addPart_Conv(new Part_Conv(arrlist.get(0),part,date[i]));
+					partconvDao.addPart_Conv(new Part_Conv(arrlist.get(arrlist.size() - 1),part,date[i]));
 				}
 				}
 		  response.sendRedirect("list_conv.jsp");
