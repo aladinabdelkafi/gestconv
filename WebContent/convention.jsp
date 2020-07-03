@@ -53,7 +53,7 @@
 
 </head>
 
-<body onload="Test()">
+<body onload="Test()"  onSubmit="return Validatedateexp();">
 
 	<div id="wrapper">
 
@@ -133,7 +133,7 @@
 			// Correction des  valleurs nulles
 		%>
 		<div id="page-wrapper" class="content-wrapper">
-			<br> <br> <br> <br>
+			<br>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card card-primary">
@@ -149,7 +149,6 @@
 									type="hidden" value="<%=arr.size()%>">
 
 								<div class="col-lg-8">
-
 
 									<div class="form-group">
 										<h4>
@@ -229,11 +228,13 @@
 											<label> Date de l'edition </label>
 										</h4>
 										<div id="datetimepicker1" class="datetimepicker">
-										
-										<input type="date" name="dateEditionConv" placeholder="yyyy-MM-dd" value="<%=dateEditionConv%>"> <span></span>
-										
+
+											<input type="date" name="dateEditionConv"
+												placeholder="yyyy-MM-dd" value="<%=dateEditionConv%>" id="dateedit">
+											<span></span>
+
 										</div>
-										
+
 									</div>
 
 
@@ -241,7 +242,7 @@
 										<h4>
 											<label>Objet </label>
 										</h4>
-										
+
 										<textarea class="form-control" name="objetConv" rows="3"><%=objetConv%></textarea>
 										<p class="help-block"></p>
 									</div>
@@ -250,8 +251,9 @@
 											<label> Date d'entrée en vigueur </label>
 										</h4>
 										<div id="datetimepicker2" class="input-append date">
-										<input type="date" name="dateVigueurConv" placeholder="yyyy-MM-dd" value="<%=dateVigueurConv%>">
-											
+											<input type="date" name="dateVigueurConv"
+												placeholder="yyyy-MM-dd" value="<%=dateVigueurConv%>" id="dateen">
+
 										</div>
 										<p class="help-block"></p>
 									</div>
@@ -261,12 +263,13 @@
 											<label> Date d'expiration </label>
 										</h4>
 										<div id="datetimepicker3" class="input-append date">
-										<input type="date" name="dateExpConv" placeholder="yyyy-MM-dd" value="<%=dateExpConv%>">
-											
+											<input type="date" name="dateExpConv"
+												placeholder="yyyy-MM-dd" value="<%=dateExpConv%>" id="dateexp" >
+
 										</div>
 										<p class="help-block"></p>
 									</div>
-									<button type="submit" class="btn btn-default">Submit</button>
+									<button type="submit"  class="btn btn-default">Submit</button>
 									<button type="reset" class="btn btn-default">Reset</button>
 
 
@@ -282,8 +285,9 @@
 											<label> Date 1 </label>
 										</h4>
 										<div id="datetimepicker4" class="input-append date">
-										<input type="date" name="date1" placeholder="yyyy-MM-dd" value="<%=date1%>">
-											
+											<input type="date" name="date1" placeholder="yyyy-MM-dd"
+												value="<%=date1%>" id="date1">
+
 										</div>
 										<p class="help-block"></p>
 									</div>
@@ -294,8 +298,9 @@
 											<label> Date 2 </label>
 										</h4>
 										<div id="datetimepicker5" class="input-append date">
-										<input type="date" name="date2" placeholder="yyyy-MM-dd" value="<%=date2%>">
-											
+											<input type="date" name="date2" id="date2" placeholder="yyyy-MM-dd"
+												value="<%=date2%>">
+
 										</div>
 										<p class="help-block"></p>
 									</div>
@@ -306,8 +311,9 @@
 											<label> Date 3 </label>
 										</h4>
 										<div id="datetimepicker6" class="input-append date">
-										<input type="date" name="date3" placeholder="yyyy-MM-dd" value="<%=date3%>">
-											
+											<input type="date" name="date3" id="date3" placeholder="yyyy-MM-dd"
+												value="<%=date3%>">
+
 										</div>
 										<p class="help-block"></p>
 									</div>
@@ -317,8 +323,9 @@
 											<label> Date 4 </label>
 										</h4>
 										<div id="datetimepicker7" class="input-append date">
-										<input type="date" name="date4" placeholder="yyyy-MM-dd" value="<%=date4%>">
-											
+											<input type="date" name="date4" id="date4" placeholder="yyyy-MM-dd"
+												value="<%=date4%>">
+
 										</div>
 										<p class="help-block"></p>
 									</div>
@@ -369,7 +376,7 @@
 		src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
 		
 	</script>
-	
+
 	<!-- Select2 -->
 	<script src="plugins/select2/js/select2.full.min.js"></script>
 	<script>
@@ -495,6 +502,51 @@
 			});
 		});
 	</script>
+	
+	
+	<script>
+	
+function Validatedateexp() {
+	var dateen = document.getElementById("dateen").value;
+	var dateexp = document.getElementById("dateexp").value;
+	var dateedit = document.getElementById("dateedit").value;
+	
+	var date1 = document.getElementById("date1").value;
+	var date2 = document.getElementById("date2").value;
+	var date3 = document.getElementById("date3").value;
+	var date4 = document.getElementById("date4").value;
+	
+	if(dateexp<=dateen){
+		alert("La date d'expiration d'une convention doit etre supérieur au date d'entrée en vigueur")
+		return false;
+	}else if(dateexp<=dateedit){
+		alert("La date d'expiration d'une convention doit etre supérieur au Date d'édition d'une convention")
+		return false;
+	}else if(dateen<dateedit){
+		alert("La date d'entrée en vigueur d'une convention doit etre supérieur ou égale a la Date d'édition ")
+		return false;
+	}else if( date1<dateedit ||date1<dateen || date1>=dateexp ){
+		alert("verifier date 1 ")
+		return false;
+	}else if( date2<dateedit ||date2<dateen || date2>=dateexp ){
+		alert("verifier date 2 ")
+		return false;
+	}
+	else if((date3!="") && (date3<dateedit ||date3<dateen || date3>=dateexp) ){
+		alert("verifier date 3 ")
+		return false;
+	}
+	else if((date4!="") && (date4<dateedit ||date4<dateen || date4>=dateexp) ){
+		alert("verifier date 4 ")
+		return false;
+	}
+	
+	return true;
+
+
+
+}
+</script>
 </body>
 
 </html>
